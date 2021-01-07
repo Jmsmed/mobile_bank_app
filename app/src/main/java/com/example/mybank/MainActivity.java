@@ -58,19 +58,26 @@ public class MainActivity extends AppCompatActivity {
             dateValidation validator = new dataValidationFormat("dd/MM/yyyy"); //Creating our date format
             dateView.setText(""); // Cleaning the user input for the next transaction
             if (validator.isValid(date)) { //In case the input date is in the right format
-                solde = solde + Double.parseDouble(montant); // Compute the new value of our Account balance
-                String solde_text = Double.toString(solde); // Parsing the value into String
-                soldeView.setText(solde_text); // Showing the new value in the TextView
-                Hist tmp_history = new Hist(num, montant, date); //Creating our object of class History with the number,value and date
-                montantView.setText(""); // Cleaning the user input for the next transaction
-                num++; // Incrementing the number of transaction
-                msg_err.setText(""); // Cleaning the user input for the next transaction
-                arrayList.add(tmp_history); //adding our History object to the array list
-                arrayAdapter.notifyDataSetChanged(); // Update the listView
+//                double temp = solde;
+//                solde = solde + Double.parseDouble(montant); // Compute the new value of our Account balance
+                if ( solde + Double.parseDouble(montant) < 0){
+                    msg_err.setText("solde insufisant");
+                } else {
+                    solde = solde + Double.parseDouble(montant); // Compute the new value of our Account balance
+                    String solde_text = Double.toString(solde); // Parsing the value into Strings
+                    soldeView.setText(solde_text); // Showing the new value in the TextView
+                    Hist tmp_history = new Hist(num, montant, date); //Creating our object of class History with the number,value and date
+                    montantView.setText(""); // Cleaning the user input for the next transaction
+                    num++; // Incrementing the number of transaction
+                    msg_err.setText(""); // Cleaning the user input for the next transaction
+                    arrayList.add(tmp_history); //adding our History object to the array list
+                    arrayAdapter.notifyDataSetChanged(); // Update the listView
+                }
             }
             else { //Date format is incorrect
                 msg_err.setText("Veuillez entrez une date do format MM/dd/yy.");
             }
+
         }
         else { // Value of transaction is incorrect
             msg_err.setText("Veuillez entrez un montant correcte ");
